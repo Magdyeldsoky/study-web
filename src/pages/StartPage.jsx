@@ -43,7 +43,7 @@ const StartPage = () => {
         <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
           <div className="flex flex-col gap-7">
             <div className="hero-text">
-              <h1 className="text-5xl font-bold mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                 Learn
                 <span className="slide">
                   <span className="wrapper flex gap-2">
@@ -56,7 +56,7 @@ const StartPage = () => {
                         >
                           <Icon className="text-primary size-7" />{" "}
                           {/* بدل text-blue-600 */}
-                          <span className="text-foreground font-medium text-[30px]">
+                          <span className="text-foreground font-medium text-[20px] sm:text-[24px] md:text-[30px] lg:text-[34px]">
                             {word.text}
                           </span>
                         </span>
@@ -66,13 +66,15 @@ const StartPage = () => {
                 </span>
               </h1>
 
-              <h1 className="text-4xl font-semibold mb-2 text-foreground">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-2 text-foreground">
                 with Top College Students
               </h1>
-              <h1 className="text-3xl font-light text-foreground">
+
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-light text-foreground">
                 and Get Real Results
               </h1>
-              <p className="text-muted-foreground text-lg max-w-xl">
+
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl">
                 Connect with top students in your college and get the help you
                 need—whether it’s a tricky chapter, quick notes, or a full video
                 lesson. Learn smarter, save time, and pay only for what you

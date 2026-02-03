@@ -7,7 +7,7 @@ import ThemTuggle from "./components/ui/ThemTuggle.jsx";
 
 createRoot(document.getElementById("root")).render(
   <HashRouter>
-    <div className="z-100 absolute top-6 right-6">
+    <div className="z-1000 absolute top-6 right-6">
       <ThemTuggle />
     </div>
     <App />
