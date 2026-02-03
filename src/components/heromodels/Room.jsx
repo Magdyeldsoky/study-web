@@ -1,7 +1,7 @@
 import React from "react";
 import { useGLTF } from "@react-three/drei";
 
-export function Model(props) {
+export function Room(props) {
   const { nodes, materials } = useGLTF("/models/optimized-room.glb");
   return (
     <group {...props} dispose={null}>
