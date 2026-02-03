@@ -11,9 +11,6 @@ const Login = () => {
   return (
     <section className="relative flex min-h-screen items-center justify-center bg-background transition-colors">
       {/* Theme Toggle */}
-      <div className="absolute top-6 right-6">
-        <ThemTuggle />
-      </div>
 
       {/* Card */}
       <div className="w-full max-w-md rounded-2xl bg-card text-card-foreground shadow-lg p-8">
