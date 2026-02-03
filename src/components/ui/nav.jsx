@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import Logo from "../logo";
 
 const Nav = () => {
   const navItems = [{ name: "Download App", href: "#hero" }];
@@ -24,15 +25,9 @@ const Nav = () => {
       }`}
     >
       <div className="container flex items-center justify-between">
-        <a
-          href="#"
-          className="space-x-2 text-xl font-bold text-primary flex items-center"
-        >
-          <span className="relative z-10">
-            <span className="text-glow text-foreground">Brain</span>
-            Buddy
-          </span>
-        </a>
+        <div className="">
+          <Logo />
+        </div>
 
         {/* Desktop Menu */}
         <div className="desk hidden md:flex space-x-8">

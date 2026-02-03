@@ -17,6 +17,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import HrtoExpeince from "@/components/heromodels/HrtoExpeince.jsx";
+import Nav from "../components/ui/nav";
 
 const words = [
   { text: "Tutoring", Icon: FaBook },
@@ -35,6 +36,7 @@ const StartPage = () => {
   const navigate = useNavigate();
   return (
     <section className="relative overflow-hidden">
+      <Nav />
       <div className="absolute top-0 left-0 z-10">
         <img src={baground} alt="background" />
       </div>
