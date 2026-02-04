@@ -38,9 +38,9 @@ const Login = () => {
 
   return (
     <section className="relative flex min-h-screen items-center justify-center bg-background transition-colors">
-      <div className="absolute top-50  ">
-        <Logo size="40px" />
-      </div>
+        <div className="absolute top-8 sm:top-12 left-1/2 transform -translate-x-1/2">
+            <Logo size="40px" />
+        </div>
       <div className="w-full max-w-md rounded-2xl bg-card text-card-foreground shadow-lg p-8">
         <h1 className="text-xl sm:text-2xl font-semibold text-center mb-6">
           Login
