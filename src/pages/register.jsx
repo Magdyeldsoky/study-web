@@ -1,12 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { registerUser } from "@/data/fakeAuth";
+import Logo from "../components/logo";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (
+      !firstName ||
+      !lastName ||
+      !usernameOrEmail ||
+      !password ||
+      !confirmPassword
+    ) {
+      setError("Please fill all fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    const isEmail = usernameOrEmail.includes("@");
+
+    const result = registerUser({
+      firstName,
+      lastName,
+      username: isEmail ? usernameOrEmail.split("@")[0] : usernameOrEmail,
+      email: isEmail ? usernameOrEmail : `${usernameOrEmail}@fake.com`,
+      password,
+    });
+
+    if (!result.success) {
+      setError(result.message);
+      return;
+    }
+
+    navigate("/login");
+  };
+
   return (
     <section className="flex min-h-screen items-center justify-center bg-background transition-colors">
+      <div className="absolute top-50  ">
+        <Logo size="40px" />
+      </div>
       <div className="w-full max-w-md rounded-2xl bg-card text-card-foreground shadow-lg p-8">
         <h1 className="text-xl sm:text-2xl font-semibold text-center mb-6">
           Sign Up
@@ -16,49 +68,72 @@ const RegisterPage = () => {
           Create your account by filling the information below.
         </p>
 
-        <form className="space-y-5">
+        {error && (
+          <p className="text-sm text-red-500 text-center mb-4">{error}</p>
+        )}
+
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Field className="relative">
+              <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs text-muted-foreground">
+                First Name
+              </FieldLabel>
+              <Input
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First name"
+                className="bg-background border-border text-sm"
+              />
+            </Field>
+
+            <Field className="relative">
+              <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs text-muted-foreground">
+                Last Name
+              </FieldLabel>
+              <Input
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last name"
+                className="bg-background border-border text-sm"
+              />
+            </Field>
+          </div>
+
           <Field className="relative">
-            <FieldLabel
-              htmlFor="input-field-username"
-              className="absolute -top-2 left-4 bg-card px-2 text-xs text-muted-foreground"
-            >
+            <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs text-muted-foreground">
               Username or Email
             </FieldLabel>
             <Input
-              id="input-field-username"
-              type="text"
-              placeholder="Enter your username or email"
-              className="bg-background border-border focus:ring-ring text-sm"
+              value={usernameOrEmail}
+              onChange={(e) => setUsernameOrEmail(e.target.value)}
+              placeholder="Username or email"
+              className="bg-background border-border text-sm"
             />
           </Field>
 
           <Field className="relative">
-            <FieldLabel
-              htmlFor="input-field-password"
-              className="absolute -top-2 left-4 bg-card px-2 text-xs text-muted-foreground"
-            >
+            <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs text-muted-foreground">
               Password
             </FieldLabel>
             <Input
-              id="input-field-password"
               type="password"
-              placeholder="Enter your password"
-              className="bg-background border-border focus:ring-ring text-sm"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="bg-background border-border text-sm"
             />
           </Field>
 
           <Field className="relative">
-            <FieldLabel
-              htmlFor="input-field-confirm-password"
-              className="absolute -top-2 left-4 bg-card px-2 text-xs text-muted-foreground"
-            >
+            <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs text-muted-foreground">
               Confirm Password
             </FieldLabel>
             <Input
-              id="input-field-confirm-password"
               type="password"
-              placeholder="Confirm your password"
-              className="bg-background border-border focus:ring-ring text-sm"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm password"
+              className="bg-background border-border text-sm"
             />
           </Field>
 

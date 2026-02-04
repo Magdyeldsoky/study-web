@@ -5,8 +5,9 @@ import Login from "@/pages/Login";
 import RegisterPage from "@/pages/register";
 import ForgotPasswordPage from "@/pages/forgot-password";
 import CodePage from "@/pages/code";
-import Home from "@/pages/Home";
-import PrivateRoute from "@/components/PrivateRoute";
+import DashboardLayout from "@/layout/layout.jsx";
+import ProfilePage from "@/pages/profile.jsx";
+import MyApp from "@/pages/myApp.jsx";
 
 function App() {
   return (
@@ -17,14 +18,11 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/code" element={<CodePage />} />
 
-      <Route
-        path="/home"
-        element={
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
-        }
-      />
+      <Route path="/home" element={<DashboardLayout />}>
+        <Route index element={<ProfilePage />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="myapp" element={<MyApp />} />
+      </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

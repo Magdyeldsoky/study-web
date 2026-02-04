@@ -11,9 +11,6 @@ createRoot(document.getElementById("root")).render(
     <div className="z-1000 absolute top-6 right-6">
       <ThemTuggle />
     </div>
-    <div className="absolute top-5 ">
-      <Logo />
-    </div>
 
     <App />
   </HashRouter>

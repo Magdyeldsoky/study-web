@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Logo from "../logo";
+import ThemeToggle from "./ThemTuggle";
 
 const Nav = () => {
   const navItems = [{ name: "Download App", href: "#hero" }];
@@ -24,12 +25,11 @@ const Nav = () => {
         isscrold ? "py-3 bg-bg/80 backdrop-blur-md shadow-xs" : "py-5"
       }`}
     >
-      <div className="container flex items-center justify-between">
-        <div className="">
+      <div className="container flex items-center justify-between relative">
+        <div className="relative left-3">
           <Logo />
         </div>
 
-        {/* Desktop Menu */}
         <div className="desk hidden md:flex space-x-8">
           {navItems.map((item, key) => (
             <a
@@ -42,7 +42,6 @@ const Nav = () => {
           ))}
         </div>
 
-        {/* Mobile Toggle */}
         <button
           className="z-50 md:hidden text-foreground"
           onClick={() => setIsopen(!isopen)}
@@ -50,9 +49,12 @@ const Nav = () => {
           {isopen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Mobile Menu */}
+        <div className="sm:hidden absolute top-3 left-3 z-50">
+          <ThemeToggle />
+        </div>
+
         <div
-          className={`fixed inset-0 bg-bg/95 backdrop-blur-md z-40 flex flex-col items-center justify-between transition duration-300 md:hidden ${
+          className={`fixed inset-0 bg-bg/95 backdrop-blur-md z-40 flex flex-col items-center justify-center transition duration-300 md:hidden ${
             isopen
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"

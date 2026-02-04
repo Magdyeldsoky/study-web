@@ -1,5 +1,5 @@
 import React from "react";
-import baground from "/images/bg.png"; // خلفية الصفحة
+import baground from "/images/bg.png";
 import "../heros-styl/hero.css";
 import { Button } from "@/components/ui/button.jsx";
 
@@ -56,7 +56,6 @@ const StartPage = () => {
                           className="flex items-center md-gap-3 gap-1 pb-2"
                         >
                           <Icon className="text-primary size-7" />{" "}
-                          {/* بدل text-blue-600 */}
                           <span className="text-foreground font-medium text-[20px] sm:text-[24px] md:text-[30px] lg:text-[34px]">
                             {word.text}
                           </span>
