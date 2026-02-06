@@ -1,9 +1,10 @@
-import React from "react";
-import { Input } from "@/components/ui/input";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Link, useNavigate } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Logo from "../components/logo";
+import React from "react";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();

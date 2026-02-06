@@ -19,7 +19,7 @@ function App() {
       <Route path="/code" element={<CodePage />} />
 
       <Route path="/home" element={<DashboardLayout />}>
-        <Route index element={<ProfilePage />} />
+        <Route index element={<MyApp />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="myapp" element={<MyApp />} />
       </Route>
