@@ -92,7 +92,7 @@ const UserHomepage = () => {
                 <div className="w-full space-y-6 animate-in fade-in slide-in-from-left-10 duration-1000 order-2 lg:order-1 text-center lg:text-left">
                     <div className="space-y-2">
                         <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/80 block">
-                            Live Dashboard
+                            Live Learning
                         </span>
                         <h1 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter leading-[0.95] break-words">
                             Welcome, <br />
