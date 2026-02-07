@@ -1,5 +1,5 @@
-import { useState } from "react";
-import {FaAppStore, FaUser, FaSignOutAlt, FaBrain} from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { FaUser, FaSignOutAlt, FaBrain } from "react-icons/fa";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import {
@@ -40,90 +40,75 @@ export default function DashboardLayout() {
     const currentUser = getCurrentUser();
     const [logoutOpen, setLogoutOpen] = useState(false);
 
+    useEffect(() => {
+        if (!currentUser) {
+            navigate("/login");
+        }
+    }, [currentUser, navigate]);
+
     const handleLogout = () => {
         logout();
         navigate("/login");
     };
 
-    if (!currentUser) {
-        navigate("/login");
-        return null;
-    }
+    if (!currentUser) return null;
 
     return (
         <SidebarProvider>
-            <div className="flex min-h-screen w-full bg-background text-foreground">
-                {/* Sidebar */}
+            <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
                 <Sidebar
                     collapsible="icon"
-                    className="border-r border-border/60 rounded-r-3xl flex flex-col transition-all duration-300 w-56 group-data-[collapsible=icon]:w-16"
+                    className="border-r border-border/50 shadow-sm transition-all duration-300"
                 >
-                    <SidebarContent className="flex flex-col py-5 gap-2">
-                        <div className="mb-4 flex justify-center group-data-[collapsible=icon]:hidden transition-all">
-                            <Logo size="24px" />
+                    <SidebarContent className="flex flex-col py-6">
+                        <div className="mb-8 flex items-center justify-center px-4 group-data-[collapsible=icon]:hidden transition-all">
+                            <Logo size="24px" className="group-data-[collapsible=icon]:hidden" />
                         </div>
 
-                        <SidebarMenu className="w-full items-center px-2">
+                        <SidebarMenu className="gap-2 px-3 group-data-[collapsible=icon]:px-2">
                             <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
+                                <SidebarMenuButton asChild tooltip="First step to top">
                                     <NavLink
                                         to="Homepage"
                                         className={({ isActive }) =>
-                                            `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-muted/70 ${
-                                                isActive ? "bg-muted text-primary shadow-sm" : "text-muted-foreground"
-                                            } group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2`
+                                            `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+                                                isActive
+                                                    ? "bg-primary text-primary-foreground shadow-md"
+                                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                            } group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0`
                                         }
                                     >
-                                        <FaBrain className="text-lg shrink-0" />
-                                        <span className="group-data-[collapsible=icon]:hidden">First step to top</span>
+                                        <FaBrain className="text-lg text-primary shrink-0" />
+                                        <span className="text-primary group-data-[collapsible=icon]:hidden">First step to top</span>
                                     </NavLink>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>
 
-                        <div className="mt-auto px-2 pb-2">
+                        <div className="mt-auto px-3 pb-4 group-data-[collapsible=icon]:px-2">
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button
                                         variant="ghost"
-                                        className="w-full h-13 px-3 flex items-center gap-3 justify-start rounded-2xl hover:bg-muted/70 transition-all duration-200 hover:scale-[1.02] group-data-[collapsible=icon]:justify-center"
+                                        className="w-full h-auto py-2 px-2 flex items-center gap-3 justify-start rounded-xl hover:bg-muted/80 transition-all group-data-[collapsible=icon]:justify-center"
                                     >
-                                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary/70 text-primary-foreground flex items-center justify-center font-semibold shadow-sm group-data-[collapsible=icon]:text-xs group-data-[collapsible=icon]:h-6">
-                                            {currentUser.firstName[0].toUpperCase()}
-                                            {currentUser.lastName[0].toUpperCase()}
+                                        <div className="w-10 h-10 shrink-0 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold border border-primary/20">
+                                            {currentUser.firstName[0].toUpperCase()}{currentUser.lastName[0].toUpperCase()}
                                         </div>
-
                                         <div className="flex flex-col items-start leading-tight overflow-hidden group-data-[collapsible=icon]:hidden">
-                                            <span className="text-sm font-medium truncate">{currentUser.username}</span>
-                                            <span className="text-xs text-muted-foreground truncate">{currentUser.email}</span>
+                                            <span className="text-sm font-semibold truncate w-full">{currentUser.username}</span>
+                                            <span className="text-xs text-muted-foreground truncate w-full">{currentUser.email}</span>
                                         </div>
                                     </Button>
                                 </DropdownMenuTrigger>
 
-                                <DropdownMenuContent
-                                    side="right"
-                                    align="end"
-                                    className="w-56 p-2 rounded-2xl border border-border/60 bg-popover/95 backdrop-blur shadow-lg animate-in fade-in zoom-in-95 slide-in-from-right-2"
-                                >
-                                    <DropdownMenuItem
-                                        onClick={() => navigate("profile")}
-                                        className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm cursor-pointer hover:bg-muted/70"
-                                    >
-                                        <FaUser className="text-muted-foreground" />
-                                        Profile
+                                <DropdownMenuContent side="right" align="end" className="w-56 ml-2 rounded-xl">
+                                    <DropdownMenuItem onClick={() => navigate("profile")} className="cursor-pointer gap-2">
+                                        <FaUser className="text-muted-foreground" /> Profile
                                     </DropdownMenuItem>
-
-                                    <DropdownMenuSeparator className="my-1" />
-
-                                    <DropdownMenuItem
-                                        onSelect={(e) => {
-                                            e.preventDefault();
-                                            setLogoutOpen(true);
-                                        }}
-                                        className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm cursor-pointer text-destructive hover:bg-destructive/10"
-                                    >
-                                        <FaSignOutAlt />
-                                        Logout
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => setLogoutOpen(true)} className="cursor-pointer gap-2 text-destructive focus:bg-destructive/10 focus:text-destructive">
+                                        <FaSignOutAlt /> Logout
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
@@ -131,31 +116,39 @@ export default function DashboardLayout() {
                     </SidebarContent>
                 </Sidebar>
 
-                {/* Main Content */}
-                <div className="flex-1 flex flex-col">
-                    <header className="h-14 flex items-center gap-4 border-b border-border/60 px-4 bg-card/80 backdrop-blur">
-                        <SidebarTrigger />
-                        <Logo size="30px" />
+                <div className="flex-1 flex flex-col h-full relative overflow-hidden">
+                    <header className="h-16 flex items-center justify-between border-b border-border/40 px-6 bg-background/80 backdrop-blur-md relative z-10">
+                        <div className="flex items-center gap-4">
+                            <SidebarTrigger className="hover:bg-muted transition-colors" />
+                            <div className="h-6 w-[1px] bg-border mx-2 hidden sm:block" />
+                        </div>
+
+                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                            <Logo size="26px" />
+                        </div>
+
+                        <div className="flex items-center gap-4"></div>
                     </header>
-                    <main className="flex-1 px-4 sm:px-6 md:px-8 lg:px-10 overflow-auto">
-                        <Outlet/>
+
+                    <main className="flex-1 overflow-y-auto overflow-x-hidden">
+                        <div className="container mx-auto p-4 md:p-8 lg:p-10 max-w-[1600px] animate-in fade-in duration-500">
+                            <Outlet />
+                        </div>
                     </main>
                 </div>
             </div>
 
             <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
-                <AlertDialogContent className="rounded-2xl animate-in fade-in zoom-in-95">
+                <AlertDialogContent className="max-w-[400px]">
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Confirm logout</AlertDialogTitle>
-                        <AlertDialogDescription>Are you sure you want to log out?</AlertDialogDescription>
+                        <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Are you sure you want to end your current session?
+                        </AlertDialogDescription>
                     </AlertDialogHeader>
-
                     <AlertDialogFooter>
-                        <AlertDialogCancel className="rounded-xl">Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                            onClick={handleLogout}
-                            className="rounded-xl bg-destructive text-destructive-foreground hover:opacity-90"
-                        >
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
                             Logout
                         </AlertDialogAction>
                     </AlertDialogFooter>
