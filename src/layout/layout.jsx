@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaAppStore, FaUser, FaSignOutAlt } from "react-icons/fa";
+import {FaAppStore, FaUser, FaSignOutAlt, FaBrain} from "react-icons/fa";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import {
@@ -74,7 +74,7 @@ export default function DashboardLayout() {
                                             } group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2`
                                         }
                                     >
-                                        <FaAppStore className="text-lg shrink-0" />
+                                        <FaBrain className="text-lg shrink-0" />
                                         <span className="group-data-[collapsible=icon]:hidden">First step to top</span>
                                     </NavLink>
                                 </SidebarMenuButton>
