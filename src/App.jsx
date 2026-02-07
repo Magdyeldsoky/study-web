@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 
 import StartPage from "@/pages/StartPage";
 import Login from "@/pages/Login";
@@ -7,26 +7,30 @@ import ForgotPasswordPage from "@/pages/forgot-password";
 import CodePage from "@/pages/code";
 import DashboardLayout from "@/layout/layout.jsx";
 import ProfilePage from "@/pages/profile.jsx";
-import Homepage from "@/pages/Homepage.jsx";
+import UserHomepage from "@/pages/UserHomepage.jsx";
+import TeacherHomepage from "@/pages/TeacherHomepage.jsx";
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<StartPage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-      <Route path="/code" element={<CodePage />} />
+    return (
+        <Routes>
+            <Route path="/" element={<StartPage/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<RegisterPage/>}/>
+            <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+            <Route path="/code" element={<CodePage/>}/>
+            <Route path="/userhome" element={<UserHomepage/>}/>
+            <Route path="/profile" element={<ProfilePage/>}/>
 
-      <Route path="/home" element={<DashboardLayout />}>
-        <Route index element={<Homepage />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="Homepage" element={<Homepage />} />
-      </Route>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
-  );
+            <Route path="/home" element={<DashboardLayout/>}>
+                <Route index element={<TeacherHomepage/>}/>
+                <Route path="profile" element={<ProfilePage/>}/>
+                <Route path="teacheruserHomepage" element={<TeacherHomepage/>}/>
+            </Route>
+
+            <Route path="*" element={<Navigate to="/" replace/>}/>
+        </Routes>
+    );
 }
 
 export default App;

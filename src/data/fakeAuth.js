@@ -20,19 +20,19 @@ export const registerUser = (user) => {
         return { success: false, message: "User already exists" };
     }
 
+    const allowedRoles = ["teacher", "learner"];
+    if (!allowedRoles.includes(user.role)) {
+        return { success: false, message: "Invalid user role" };
+    }
+
     users.push(user);
     saveUsers(users);
-
-    console.log("✅ Users after register:", users);
 
     return { success: true };
 };
 
 export const loginUser = ({ identifier, password }) => {
     const users = getUsers();
-
-    console.log("🧠 Stored users:", users);
-    console.log("✍️ Login attempt:", identifier, password);
 
     const user = users.find(
         (u) =>
@@ -60,11 +60,17 @@ export const getCurrentUser = () => {
 export const updateUser = (updatedUser) => {
     const users = getUsers();
 
-    const index = users.findIndex((u) => u.username === updatedUser.username);
+    const index = users.findIndex(
+        (u) => u.username === updatedUser.username
+    );
 
     if (index === -1) {
-        console.error("❌ User not found for update");
         return { success: false, message: "User not found" };
+    }
+
+    const allowedRoles = ["teacher", "learner"];
+    if (!allowedRoles.includes(updatedUser.role)) {
+        return { success: false, message: "Invalid user role" };
     }
 
     users[index] = updatedUser;
@@ -75,6 +81,5 @@ export const updateUser = (updatedUser) => {
         localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(updatedUser));
     }
 
-    console.log("✅ User updated:", updatedUser);
     return { success: true };
 };

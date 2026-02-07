@@ -11,71 +11,76 @@ const ForgotPassword = () => {
     return (
         <section className="relative min-h-screen w-full flex items-center justify-center bg-background overflow-hidden p-4">
 
-            {/* Mesh Gradients - للحفاظ على الهوية البصرية الموحدة */}
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" />
-            <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-primary/5 rounded-full blur-[100px]" />
+            <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px]" />
 
             <div className="w-full max-w-[440px] z-10 animate-in fade-in zoom-in-95 duration-700">
 
-                {/* Logo Section */}
-                <div className="flex justify-center mb-10">
-                    <div className="p-4 bg-muted/30 rounded-[2rem] border border-border/40 backdrop-blur-sm">
+                <div className="flex justify-center mb-8">
+                    <div className="p-4 bg-card/40 rounded-[2.2rem] border border-border/50 backdrop-blur-md shadow-2xl">
                         <Logo size="42px" />
                     </div>
                 </div>
 
-                {/* Forgot Password Card */}
-                <div className="bg-card/40 backdrop-blur-xl border border-border/40 rounded-[2.5rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
-                    <div className="text-center mb-8">
-                        <h1 className="text-3xl font-black tracking-tight text-foreground">
-                            Reset <span className="text-primary font-extrabold">Access</span>
+                <div className="bg-card/30 backdrop-blur-2xl border border-white/10 rounded-[2.8rem] p-8 md:p-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] relative overflow-hidden">
+
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+
+                    <div className="text-center mb-10">
+                        <div className="inline-flex items-center justify-center w-14 h-14 rounded-[1.2rem] bg-primary/10 text-primary mb-6 border border-primary/20 shadow-inner">
+                            <FaEnvelope className="text-2xl" />
+                        </div>
+                        <h1 className="text-4xl font-black tracking-tighter text-foreground leading-tight">
+                            Reset <span className="text-transparent bg-clip-text bg-gradient-to-br from-primary to-primary/60">Access</span>
                         </h1>
-                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em] mt-3 leading-relaxed">
-                            Don't worry, we'll send you a recovery link
+                        <p className="text-[10px] text-muted-foreground font-black uppercase tracking-[0.25em] mt-4 leading-relaxed max-w-[240px] mx-auto opacity-70">
+                            We'll send a recovery link to your inbox
                         </p>
                     </div>
 
-                    <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                        {/* Input Field: Email or Username */}
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/80 ml-2">
-                                Your Credentials
+                    <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-primary/80 ml-4">
+                                Registered Credentials
                             </label>
                             <div className="relative group">
-                                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/40 group-focus-within:text-primary transition-colors text-xs" />
+                                <FaEnvelope className="absolute left-5 top-1/2 -translate-y-1/2 text-primary/40 group-focus-within:text-primary transition-colors text-xs z-20" />
                                 <Input
                                     id="input-field-username"
                                     type="text"
-                                    placeholder="Email or Username"
-                                    className="h-14 pl-12 rounded-2xl bg-muted/20 border-border/40 focus:bg-card transition-all font-medium"
+                                    placeholder="Enter your Email or Username"
+                                    className="h-15 pl-14 rounded-2xl bg-black/20 border-border/40 focus:border-primary/50 focus:ring-primary/20 transition-all font-bold placeholder:text-muted-foreground/40 text-foreground"
                                 />
                             </div>
                         </div>
 
                         <Button
                             type="submit"
-                            className="w-full h-14 rounded-2xl bg-primary text-primary-foreground font-black text-base shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group"
+                            className="w-full h-15 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-black text-base shadow-xl shadow-primary/20 flex items-center justify-center gap-3 group transition-all"
                         >
-                            Send Link <FaPaperPlane className="text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                            Send Recovery Link <FaPaperPlane className="text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                         </Button>
 
-                        <div className="pt-2">
+                        <div className="pt-2 text-center">
+                            <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-border/40 to-transparent my-4" />
+
                             <Button
                                 type="button"
                                 variant="ghost"
-                                className="w-full h-12 rounded-xl text-muted-foreground hover:text-foreground text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2"
+                                className="w-fit mx-auto h-10 px-6 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/5 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 group transition-all"
                                 onClick={() => navigate("/login")}
                             >
-                                <FaArrowLeft className="text-[10px]" /> Back to Login
+                                <FaArrowLeft className="text-[10px] group-hover:-translate-x-1 transition-transform" /> Back to Login
                             </Button>
                         </div>
                     </form>
                 </div>
 
-                {/* Support Footer */}
-                <p className="text-center mt-8 text-[10px] text-muted-foreground font-bold uppercase tracking-[0.3em] opacity-60">
-                    Need help? Contact support
-                </p>
+                <div className="text-center mt-10">
+                    <p className="text-[9px] text-muted-foreground font-black uppercase tracking-[0.4em] opacity-40 hover:opacity-100 transition-opacity cursor-pointer">
+                        Need help? Contact secure support
+                    </p>
+                </div>
             </div>
         </section>
     );

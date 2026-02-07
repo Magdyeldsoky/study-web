@@ -265,84 +265,30 @@ section {
     display: inline-block;
     flex-direction: column;
     transition: all cubic-bezier(0.71, 0.03, 0.34, 1);
+    height: 1.3em;
 }
 
 .wrapper {
     display: flex;
     flex-direction: column;
-    animation: wordSlider 21s infinite cubic-bezier(0.9, 0.01, 0.3, 0.99);
+    animation: slide-up 15s infinite ease-in-out;}
+
+@keyframes slide-up {
+    0%, 8% { transform: translateY(0); }
+    10%, 18% { transform: translateY(-1.3em); }
+    20%, 28% { transform: translateY(-2.6em); }
+    30%, 38% { transform: translateY(-3.9em); }
+    40%, 48% { transform: translateY(-5.2em); }
+    50%, 58% { transform: translateY(-6.5em); }
+    60%, 68% { transform: translateY(-7.8em); }
+    70%, 78% { transform: translateY(-9.1em); }
+    80%, 88% { transform: translateY(-10.4em); }
+    90%, 98% { transform: translateY(-11.7em); }
+    100% { transform: translateY(0); }
 }
 
-@keyframes wordSlider {
-    0% {
-        transform: translateY(0.5%);
-    }
-    12.5% {
-        transform: translateY(-12.5%);
-    }
-    25% {
-        transform: translateY(-25%);
-    }
-    37.5% {
-        transform: translateY(-37.5%);
-    }
-    50% {
-        transform: translateY(-50%);
-    }
-    62.5% {
-        transform: translateY(-62.5%);
-    }
-    75% {
-        transform: translateY(-75%);
-    }
-    87.5% {
-        transform: translateY(-87.5%);
-    }
-}
 
-.gradient-line {
-    width: 2px;
-    background: linear-gradient(
-            0deg,
-            rgba(69, 222, 196, 0) 0%,
-            var(--accent) 25%,
-            var(--primary) 37.51%,
-            var(--destructive) 62.83%,
-            var(--secondary) 92.91%
-    );
-}
 
-.gradient-edge:nth-of-type(1) {
-    left: 0;
-    background: linear-gradient(90deg, var(--background) 0%, transparent 100%);
-}
-.gradient-edge:nth-of-type(2) {
-    right: 0;
-    background: linear-gradient(-90deg, var(--background) 0%, transparent 100%);
-}
 
-.marquee {
-    width: 100dvw;
-    overflow: hidden;
-    position: relative;
-}
-.marquee-box {
-    display: flex;
-    align-items: center;
-    width: 200%;
-    height: 100%;
-    position: absolute;
-    overflow: hidden;
-    animation: marquee 60s linear infinite;
-}
-.marquee-item {
-    float: left;
-}
-@keyframes marquee {
-    0% {
-        left: 0;
-    }
-    100% {
-        left: -100%;
-    }
-}
+
+
