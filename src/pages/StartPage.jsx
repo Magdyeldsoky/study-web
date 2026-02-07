@@ -4,16 +4,16 @@ import "../heros-styl/hero.css";
 import { Button } from "@/components/ui/button.jsx";
 
 import {
-  FaBook,
-  FaGraduationCap,
-  FaLightbulb,
-  FaClipboardList,
-  FaLaptopCode,
-  FaPencilAlt,
-  FaClock,
-  FaDollarSign,
-  FaUniversity,
-  FaTrophy,
+    FaBook,
+    FaGraduationCap,
+    FaLightbulb,
+    FaClipboardList,
+    FaLaptopCode,
+    FaPencilAlt,
+    FaClock,
+    FaDollarSign,
+    FaUniversity,
+    FaTrophy, FaArrowRight,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import HrtoExpeince from "@/components/heromodels/HrtoExpeince.jsx";
@@ -81,13 +81,13 @@ const StartPage = () => {
                 need.
               </p>
             </div>
-            <Button
-              type="button"
-              className="z-100 w-80 mt-2 justify-center text-secondary hover:text-foreground text-sm font-medium"
-              onClick={() => navigate("/login")}
-            >
-              Get started
-            </Button>
+              <Button
+                  size="lg"
+                  className="h-14 max-w-50 z-1000 px-10 rounded-2xl bg-primary text-primary-foreground font-black text-base shadow-xl shadow-primary/20 hover:scale-105 transition-all group"
+                  onClick={() => navigate("/login")}
+              >
+                  Get Started <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
           </div>
         </header>
         <figure>

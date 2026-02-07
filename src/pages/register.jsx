@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Field, FieldLabel } from "@/components/ui/field";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { registerUser } from "@/data/fakeAuth";
 import Logo from "../components/logo";
+import { FaUserPlus, FaArrowRight, FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -49,103 +49,123 @@ const RegisterPage = () => {
     };
 
     return (
-        <section className="min-h-screen flex items-center justify-center bg-background px-4 sm:px-6 lg:px-8 transition-colors">
-            <div className="absolute top-8 sm:top-12 left-1/2 transform -translate-x-1/2">
-                <Logo size="40px" />
-            </div>
+        <section className="relative min-h-screen w-full flex items-center justify-center bg-background overflow-hidden p-4">
 
-            <div className="w-full max-w-md sm:max-w-lg lg:max-w-xl rounded-2xl bg-card text-card-foreground shadow-lg p-6 sm:p-8 md:p-10 mx-auto">
-                <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-6">
-                    Sign Up
-                </h1>
+            {/* Mesh Gradients - ثابتة في كل صفحات الـ Auth */}
+            <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+            <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-primary/5 rounded-full blur-[100px]" />
 
-                <p className="text-sm sm:text-base text-muted-foreground mb-6 text-center">
-                    Create your account by filling the information below.
-                </p>
+            <div className="w-full max-w-[550px] z-10 animate-in fade-in zoom-in-95 duration-700">
 
-                {error && (
-                    <p className="text-sm text-red-500 text-center mb-4">{error}</p>
-                )}
+                {/* Logo Section */}
+                <div className="flex justify-center mb-8">
+                    <div className="p-3 bg-muted/30 rounded-[1.8rem] border border-border/40 backdrop-blur-sm">
+                        <Logo size="38px" />
+                    </div>
+                </div>
 
-                <form className="space-y-5" onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <Field className="relative">
-                            <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs sm:text-sm text-muted-foreground">
-                                First Name
-                            </FieldLabel>
-                            <Input
-                                value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
-                                placeholder="First name"
-                                className="bg-background border-border text-sm sm:text-base"
-                            />
-                        </Field>
-
-                        <Field className="relative">
-                            <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs sm:text-sm text-muted-foreground">
-                                Last Name
-                            </FieldLabel>
-                            <Input
-                                value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
-                                placeholder="Last name"
-                                className="bg-background border-border text-sm sm:text-base"
-                            />
-                        </Field>
+                {/* Register Card */}
+                <div className="bg-card/40 backdrop-blur-xl border border-border/40 rounded-[2.5rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+                    <div className="text-center mb-8">
+                        <h1 className="text-3xl font-black tracking-tight text-foreground">
+                            Create <span className="text-primary">Account</span>
+                        </h1>
+                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em] mt-2">
+                            Join our community today
+                        </p>
                     </div>
 
-                    <Field className="relative">
-                        <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs sm:text-sm text-muted-foreground">
-                            Username or Email
-                        </FieldLabel>
-                        <Input
-                            value={usernameOrEmail}
-                            onChange={(e) => setUsernameOrEmail(e.target.value)}
-                            placeholder="Username or email"
-                            className="bg-background border-border text-sm sm:text-base"
-                        />
-                    </Field>
+                    {error && (
+                        <div className="mb-6 bg-destructive/10 text-destructive text-[11px] font-bold p-3 rounded-xl text-center animate-shake">
+                            {error}
+                        </div>
+                    )}
 
-                    <Field className="relative">
-                        <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs sm:text-sm text-muted-foreground">
-                            Password
-                        </FieldLabel>
-                        <Input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Password"
-                            className="bg-background border-border text-sm sm:text-base"
-                        />
-                    </Field>
+                    <form className="space-y-5" onSubmit={handleSubmit}>
+                        {/* Name Row */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70 ml-2">First Name</label>
+                                <div className="relative group">
+                                    <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/40 group-focus-within:text-primary transition-colors text-xs" />
+                                    <Input
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                        placeholder="FirstName"
+                                        className="h-12 pl-10 rounded-xl bg-muted/20 border-border/40 focus:bg-card transition-all text-sm font-medium"
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70 ml-2">Last Name</label>
+                                <Input
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    placeholder="LastName"
+                                    className="h-12 px-4 rounded-xl bg-muted/20 border-border/40 focus:bg-card transition-all text-sm font-medium"
+                                />
+                            </div>
+                        </div>
 
-                    <Field className="relative">
-                        <FieldLabel className="absolute -top-2 left-4 bg-card px-2 text-xs sm:text-sm text-muted-foreground">
-                            Confirm Password
-                        </FieldLabel>
-                        <Input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            placeholder="Confirm password"
-                            className="bg-background border-border text-sm sm:text-base"
-                        />
-                    </Field>
+                        {/* Username/Email */}
+                        <div className="space-y-1.5">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70 ml-2">Username or Email</label>
+                            <div className="relative group">
+                                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/40 group-focus-within:text-primary transition-colors text-xs" />
+                                <Input
+                                    value={usernameOrEmail}
+                                    onChange={(e) => setUsernameOrEmail(e.target.value)}
+                                    placeholder="yourname@example.com"
+                                    className="h-12 pl-10 rounded-xl bg-muted/20 border-border/40 focus:bg-card transition-all text-sm font-medium"
+                                />
+                            </div>
+                        </div>
 
-                    <Button className="w-full bg-primary text-primary-foreground hover:opacity-90 text-sm sm:text-base font-medium py-3 sm:py-4">
-                        Sign Up
-                    </Button>
+                        {/* Passwords Row */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70 ml-2">Password</label>
+                                <div className="relative group">
+                                    <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/40 group-focus-within:text-primary transition-colors text-xs" />
+                                    <Input
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="••••••••"
+                                        className="h-12 pl-10 rounded-xl bg-muted/20 border-border/40 focus:bg-card transition-all text-sm"
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70 ml-2">Confirm</label>
+                                <Input
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    placeholder="••••••••"
+                                    className="h-12 px-4 rounded-xl bg-muted/20 border-border/40 focus:bg-card transition-all text-sm"
+                                />
+                            </div>
+                        </div>
 
-                    <p className="text-sm sm:text-base text-muted-foreground text-center mt-2">
-                        Already have an account?{" "}
-                        <Link
-                            to="/login"
-                            className="text-primary font-medium hover:underline"
-                        >
-                            Login
-                        </Link>
-                    </p>
-                </form>
+                        <Button className="w-full h-14 mt-4 rounded-2xl bg-primary text-primary-foreground font-black text-base shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group">
+                            Register Now <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform" />
+                        </Button>
+
+                        <div className="pt-4 text-center">
+                            <p className="text-sm text-muted-foreground font-medium">
+                                Already have an account?{" "}
+                                <Link to="/login" className="text-foreground font-black hover:text-primary transition-colors">
+                                    Log In
+                                </Link>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+                <p className="text-center mt-8 text-[10px] text-muted-foreground font-bold uppercase tracking-[0.3em] opacity-50">
+                    © 2026 Tweakcn Design System
+                </p>
             </div>
         </section>
     );
