@@ -7,7 +7,7 @@ import ForgotPasswordPage from "@/pages/forgot-password";
 import CodePage from "@/pages/code";
 import DashboardLayout from "@/layout/layout.jsx";
 import ProfilePage from "@/pages/profile.jsx";
-import MyApp from "@/pages/myApp.jsx";
+import Homepage from "@/pages/Homepage.jsx";
 
 function App() {
   return (
@@ -19,9 +19,9 @@ function App() {
       <Route path="/code" element={<CodePage />} />
 
       <Route path="/home" element={<DashboardLayout />}>
-        <Route index element={<MyApp />} />
+        <Route index element={<Homepage />} />
         <Route path="profile" element={<ProfilePage />} />
-        <Route path="myapp" element={<MyApp />} />
+        <Route path="Homepage" element={<Homepage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
