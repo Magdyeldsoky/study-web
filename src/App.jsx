@@ -9,6 +9,8 @@ import DashboardLayout from "@/layout/layout.jsx";
 import ProfilePage from "@/pages/profile.jsx";
 import UserHomepage from "@/pages/UserHomepage.jsx";
 import TeacherHomepage from "@/pages/TeacherHomepage.jsx";
+import CorsePadge from "@/pages/corsePadge.jsx";
+import CorseCom from "@/pages/corseCom.jsx";
 
 function App() {
     return (
@@ -21,10 +23,16 @@ function App() {
             <Route path="/userhome" element={<UserHomepage/>}/>
             <Route path="/profile" element={<ProfilePage/>}/>
 
+            <Route path="/corscom" element={<CorseCom/>}/>
+
 
             <Route path="/home" element={<DashboardLayout/>}>
                 <Route index element={<TeacherHomepage/>}/>
                 <Route path="profile" element={<ProfilePage/>}/>
+                <Route path="corse">
+                    <Route index element={<CorsePadge/>}/>
+                    <Route path="corscom" element={<CorseCom/>}/>
+                </Route>
                 <Route path="teacheruserHomepage" element={<TeacherHomepage/>}/>
             </Route>
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { getCurrentUser } from "@/data/fakeAuth";
+import React, { useState, useEffect, useMemo } from "react";
+import { getCurrentUser, getTeacherCourses } from "@/data/fakeAuth";
 import Logo from "../components/logo";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,18 +10,32 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FaUserCircle, FaChevronDown, FaSignOutAlt } from "react-icons/fa";
+import {
+    FaUserCircle, FaChevronDown, FaSignOutAlt,
+    FaSearch, FaRocket, FaTerminal, FaFire,
+    FaBookOpen, FaGraduationCap, FaChartLine
+} from "react-icons/fa";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import Hero2Model from "@/components/hero2model/hero2model.jsx";
 
 const UserHomepage = () => {
     const [user, setUser] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
+
+    const allCourses = useMemo(() => getTeacherCourses(), []);
 
     useEffect(() => {
         const currentUser = getCurrentUser();
         setUser(currentUser);
     }, []);
+
+    const filteredCourses = allCourses.filter(course =>
+        course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.code.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const handleLogout = () => {
         localStorage.removeItem("current_user");
@@ -30,132 +44,186 @@ const UserHomepage = () => {
 
     if (!user) return null;
 
-    const getInitials = (firstName, lastName) => {
-        return `${firstName?.[0] || ""}${lastName?.[0] || ""}`.toUpperCase();
-    };
-
-    const lineData = [10, 15, 12, 20];
-    const barData = [70, 80, 68, 90];
-    const subjects = ["Math", "Physics", "Chemistry", "Biology"];
-    const weeks = ["Week 1", "Week 2", "Week 3", "Week 4"];
-
-    const maxLine = Math.max(...lineData);
-    const maxBar = Math.max(...barData);
-
     return (
-        <div className="w-full min-h-screen max-w-7xl mx-auto flex flex-col gap-6 pb-12 animate-in fade-in slide-in-from-bottom-6 duration-1000 px-4 md:px-8 overflow-x-hidden">
+        <div className="w-full min-h-screen max-w-7xl mx-auto flex flex-col gap-10 pb-20 animate-in fade-in slide-in-from-bottom-6 duration-1000 px-4 md:px-8 bg-background">
 
-            <div className="flex justify-center w-full py-4 shrink-0">
-                <div className="p-2.5 bg-card/30 rounded-[1.2rem] border border-border/40 backdrop-blur-md shadow-sm">
-                    <Logo size="28px" />
+            <div className="flex items-center justify-between py-6 border-b border-border/40 shrink-0">
+                <div className="p-2.5 bg-card/50 rounded-2xl border border-border shadow-sm backdrop-blur-md">
+                    <Logo size="24px" />
                 </div>
+
+                <header className="flex justify-end">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger className="outline-none">
+                            <div className="flex items-center gap-3 p-1.5 pr-4 rounded-full hover:bg-accent transition-all duration-300 border border-transparent hover:border-border">
+                                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-black text-xs shadow-md">
+                                    {user.firstName?.[0].toUpperCase()}
+                                </div>
+                                <div className="hidden md:flex flex-col items-start leading-none">
+                                    <span className="text-[10px] font-black uppercase tracking-tighter text-primary">Academy Student</span>
+                                    <span className="text-[11px] font-bold text-foreground/80">@{user.username}</span>
+                                </div>
+                                <FaChevronDown className="text-[8px] text-muted-foreground ml-2" />
+                            </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-56 mt-2 rounded-2xl bg-card border-border shadow-2xl p-2">
+                            <DropdownMenuLabel className="px-4 py-2 text-[10px] font-black uppercase text-muted-foreground tracking-widest">My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => navigate("/profile")} className="flex items-center gap-3 p-3 rounded-xl cursor-pointer hover:bg-primary/10 transition-colors">
+                                <FaUserCircle className="text-primary" /> <span className="font-bold text-xs">Profile Matrix</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-3 p-3 rounded-xl cursor-pointer text-destructive hover:bg-destructive/10">
+                                <FaSignOutAlt /> <span className="font-bold text-xs">Eject Session</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </header>
             </div>
 
-            <header className="flex justify-start shrink-0">
-                <DropdownMenu>
-                    <DropdownMenuTrigger className="outline-none">
-                        <div className="flex items-center gap-4 p-2 pr-5 rounded-[2rem] hover:bg-muted/30 transition-all duration-500 cursor-pointer group border border-transparent hover:border-border/40 hover:backdrop-blur-sm whitespace-nowrap">
-                            <div className="relative shrink-0">
-                                <div className="w-12 h-12 rounded-[1.4rem] bg-gradient-to-br from-primary to-primary/40 p-[2px] shadow-lg">
-                                    <div className="w-full h-full rounded-[1.3rem] bg-card flex items-center justify-center overflow-hidden border-2 border-background">
-                                        {user.avatar ? (
-                                            <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
-                                        ) : (
-                                            <span className="text-sm font-black text-primary/80">{getInitials(user.firstName, user.lastName)}</span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex flex-col items-start min-w-0">
-                                <h2 className="text-sm font-black text-foreground group-hover:text-primary transition-colors flex items-center gap-2 truncate max-w-[150px]">
-                                    {user.firstName} <FaChevronDown className="text-[8px] opacity-40 shrink-0" />
-                                </h2>
-                                <p className="text-[10px] text-muted-foreground font-bold tracking-tight italic opacity-70 leading-none truncate max-w-[150px]">{user.email}</p>
-                            </div>
-                        </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56 mt-2 p-2 rounded-[1.5rem] bg-card/80 backdrop-blur-xl border-border/40 shadow-2xl">
-                        <DropdownMenuLabel className="px-4 py-2 text-[10px] font-black uppercase text-muted-foreground tracking-widest">Account</DropdownMenuLabel>
-                        <DropdownMenuSeparator className="bg-border/40" />
-                        <DropdownMenuItem onClick={() => navigate("/profile")} className="flex items-center gap-3 p-3 rounded-xl cursor-pointer hover:bg-primary/10 transition-colors">
-                            <FaUserCircle className="text-primary" /> <span className="font-bold text-xs">Profile</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-3 p-3 rounded-xl cursor-pointer text-destructive hover:bg-destructive/10 transition-colors">
-                            <FaSignOutAlt /> <span className="font-bold text-xs">Logout</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </header>
-
-            <section className="flex flex-col lg:grid lg:grid-cols-[350px_1fr] xl:grid-cols-[400px_1fr] gap-8 items-center min-h-fit lg:min-h-[500px]">
-
-                <div className="w-full space-y-6 animate-in fade-in slide-in-from-left-10 duration-1000 order-2 lg:order-1 text-center lg:text-left">
-                    <div className="space-y-2">
-                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/80 block">
-                            Live Learning
-                        </span>
-                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter leading-[0.95] break-words">
-                            Welcome, <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-primary/40">
-                                {user.firstName}
-                            </span>
-                        </h1>
+            <section className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-accent/20 rounded-[3rem] border border-border overflow-hidden min-h-[450px]">
+                <div className="p-10 md:p-16 z-10 text-center lg:text-left">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[9px] font-black uppercase tracking-[0.2em] mb-6">
+                        <FaRocket className="animate-pulse" /> Final Mission Awaits
                     </div>
-                    <p className="text-sm md:text-base text-muted-foreground font-medium leading-relaxed max-w-sm mx-auto lg:mx-0 border-l-0 lg:border-l-4 border-primary/10 pl-0 lg:pl-6 py-1">
-                        Your personalized learning space is ready. Track your weekly growth and explore new subjects.
+                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground mb-6 leading-[0.9]">
+                        Ready for <br />
+                        <span className="text-primary italic">Impact?</span>
+                    </h1>
+                    <p className="text-muted-foreground font-semibold text-sm md:text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
+                        Welcome back, {user.firstName}. All systems are go. Your training modules have been synchronized for today's session.
                     </p>
                 </div>
 
-                <div className="relative w-full aspect-square lg:aspect-auto h-[350px] md:h-[450px] lg:h-full max-h-[600px] bg-gradient-to-b from-primary/5 to-transparent rounded-[3rem] border border-primary/5 backdrop-blur-3xl order-1 lg:order-2 flex items-center justify-center animate-in zoom-in-95 duration-1000">
-                    <div className="absolute inset-0 z-10">
+                <div className="relative h-[350px] lg:h-full w-full">
+                    <div className="absolute inset-0 z-0">
                         <Hero2Model />
                     </div>
-                    <div className="absolute top-6 right-6 lg:top-10 lg:right-10 bg-card/50 backdrop-blur-md p-4 rounded-[1.5rem] border border-border/40 shadow-xl hidden sm:block">
-                        <p className="text-[8px] font-black uppercase tracking-widest text-muted-foreground">Status</p>
+                    <div className="absolute top-10 right-10 bg-card/80 backdrop-blur-md p-4 rounded-2xl border border-border shadow-2xl hidden md:block">
+                        <p className="text-[9px] font-black uppercase text-muted-foreground mb-1">Live Status</p>
                         <p className="text-xs font-bold text-green-500 flex items-center gap-2">
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online Learning
+                            <span className="w-2 h-2 bg-green-500 rounded-full animate-ping" /> Connection Stable
                         </p>
                     </div>
                 </div>
             </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <Card className="p-6 lg:p-8 rounded-[2.5rem] border border-border/20 shadow-none bg-card/40 backdrop-blur-md flex flex-col h-[300px] lg:h-[350px]">
-                    <div className="flex justify-between items-center mb-6 lg:mb-8 shrink-0">
-                        <h2 className="text-base lg:text-lg font-black tracking-tight">Study Hours</h2>
-                        <span className="text-[9px] bg-primary/10 text-primary px-3 py-1 rounded-full font-black uppercase tracking-widest">Activity</span>
-                    </div>
-                    <div className="flex-1 flex items-end gap-2 lg:gap-3 px-1 h-full min-h-0">
-                        {lineData.map((val, idx) => (
-                            <div key={idx} className="group relative flex-1 flex flex-col items-center h-full">
-                                <div className="bg-primary/20 group-hover:bg-primary/40 rounded-t-[0.8rem] w-full transition-all duration-500 relative" style={{ height: `${(val / maxLine) * 100}%` }}>
-                                    <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-foreground text-background text-[9px] font-black px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-20">{val}h</span>
-                                </div>
-                                <span className="mt-3 text-[8px] text-muted-foreground font-black uppercase tracking-widest truncate w-full text-center">{weeks[idx]}</span>
-                            </div>
-                        ))}
-                    </div>
-                </Card>
-
-                <Card className="p-6 lg:p-8 rounded-[2.5rem] border border-border/20 shadow-none bg-card/40 backdrop-blur-md flex flex-col h-[300px] lg:h-[350px]">
-                    <div className="flex justify-between items-center mb-6 lg:mb-8 shrink-0">
-                        <h2 className="text-base lg:text-lg font-black tracking-tight">Top Scores</h2>
-                        <span className="text-[9px] bg-green-500/10 text-green-500 px-3 py-1 rounded-full font-black uppercase tracking-widest">Performance</span>
-                    </div>
-                    <div className="flex-1 flex items-end gap-2 lg:gap-3 px-1 h-full min-h-0">
-                        {barData.map((val, idx) => (
-                            <div key={idx} className="group relative flex-1 flex flex-col items-center h-full">
-                                <div className="bg-green-500/20 group-hover:bg-green-500/40 rounded-t-[0.8rem] w-full transition-all duration-500 relative" style={{ height: `${(val / maxBar) * 100}%` }}>
-                                    <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-foreground text-background text-[9px] font-black px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-20">{val}%</span>
-                                </div>
-                                <span className="mt-3 text-[8px] text-muted-foreground font-black uppercase tracking-widest truncate w-full text-center">{subjects[idx]}</span>
-                            </div>
-                        ))}
-                    </div>
-                </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sticky top-6 z-30">
+                <div className="lg:col-span-3 relative group">
+                    <FaSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                    <Input
+                        placeholder="SEARCH CORE DATABASE (NAME OR CODE)..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="h-16 pl-14 pr-6 rounded-2xl bg-card border-border focus:border-primary shadow-xl text-xs font-black tracking-widest uppercase"
+                    />
+                </div>
+                <Button className="h-16 rounded-2xl bg-primary text-primary-foreground font-black uppercase text-[10px] tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
+                    Execute Search
+                </Button>
             </div>
 
-            <div className="fixed top-[40%] right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/5 rounded-full blur-[100px] md:blur-[120px] -z-10 animate-pulse pointer-events-none" />
+            <div className="space-y-8">
+                <div className="flex items-center justify-between px-2 border-l-4 border-primary pl-4">
+                    <div>
+                        <h2 className="text-xl font-black uppercase tracking-tighter">Available Modules</h2>
+                        <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Sector 01: Core Knowledge</p>
+                    </div>
+                    <span className="text-[10px] bg-accent px-4 py-2 rounded-full font-black text-foreground">
+                        {filteredCourses.length} LOADED
+                    </span>
+                </div>
+
+                {filteredCourses.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {filteredCourses.map((course) => (
+                            <Card
+                                key={course.id}
+                                onClick={() => navigate(`/corscom?id=${course.id}`)}
+                                className="group relative bg-card border border-border rounded-[2.5rem] overflow-hidden hover:border-primary transition-all duration-500 cursor-pointer shadow-sm hover:shadow-2xl flex flex-col"
+                            >
+                                <div className="h-48 relative overflow-hidden bg-muted">
+                                    <img
+                                        src={course.image}
+                                        alt={course.name}
+                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/20 to-transparent" />
+                                    <div className="absolute top-5 left-5">
+                                        <span className="px-3 py-1.5 rounded-xl bg-primary text-primary-foreground text-[10px] font-black uppercase shadow-xl border border-white/10">
+                                            {course.code}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="p-8 flex-1 flex flex-col justify-between">
+                                    <div className="space-y-3">
+                                        <h3 className="text-2xl font-black text-foreground uppercase italic tracking-tighter group-hover:text-primary transition-colors leading-none">
+                                            {course.name}
+                                        </h3>
+                                        <div className="flex items-center gap-4 text-[10px] font-bold text-muted-foreground uppercase">
+                                            <span className="flex items-center gap-1.5 text-primary"><FaBookOpen /> {course.lessons} Units</span>
+                                            <span className="flex items-center gap-1.5 text-orange-500"><FaFire /> Trending</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-6 mt-6 border-t border-border flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-[10px] font-black text-foreground">
+                                                {course.instructor?.[0].toUpperCase()}
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-[8px] font-black text-muted-foreground uppercase leading-none">Instructor</span>
+                                                <span className="text-[10px] font-bold text-foreground">@{course.instructor}</span>
+                                            </div>
+                                        </div>
+                                        <div className="p-2 rounded-lg bg-primary/5 group-hover:bg-primary transition-colors">
+                                            <FaTerminal className="text-muted-foreground group-hover:text-primary-foreground transition-all" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Card>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="h-[400px] flex flex-col items-center justify-center rounded-[3rem] border-2 border-dashed border-border bg-accent/5 p-10 text-center">
+                        <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                            <FaSearch className="text-primary/40 text-3xl" />
+                        </div>
+                        <h3 className="text-lg font-black uppercase text-foreground mb-2">No Matching Data</h3>
+                        <p className="text-muted-foreground font-medium text-sm max-w-xs mx-auto">
+                            The matrix couldn't find any course matching your request. Try adjusting your filters.
+                        </p>
+                    </div>
+                )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+                <Card className="p-8 rounded-[2.5rem] border border-border bg-card/60 backdrop-blur-md">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-3 bg-primary/10 rounded-2xl text-primary"><FaChartLine /></div>
+                        <h2 className="text-lg font-black tracking-tight uppercase">Study Matrix</h2>
+                    </div>
+                    <div className="h-40 flex items-end gap-3 px-2">
+                        {[40, 70, 45, 90, 60].map((val, i) => (
+                            <div key={i} className="flex-1 bg-primary/20 rounded-t-xl group relative hover:bg-primary transition-all duration-500" style={{ height: `${val}%` }}>
+                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-foreground text-background text-[9px] font-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                    {val}%
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <p className="text-[10px] text-muted-foreground font-black uppercase mt-6 text-center tracking-[0.3em]">Weekly Neural Activity</p>
+                </Card>
+
+                <Card className="p-8 rounded-[2.5rem] border border-border bg-card/60 backdrop-blur-md flex flex-col justify-center items-center text-center space-y-4">
+                    <div className="p-5 bg-green-500/10 rounded-full text-green-500 text-3xl animate-bounce"><FaGraduationCap /></div>
+                    <h2 className="text-2xl font-black uppercase italic tracking-tighter">Unlock Your Potential</h2>
+                    <p className="text-sm text-muted-foreground font-medium max-w-xs">
+                        Complete 3 more units this week to earn the <span className="text-primary font-bold">"Alpha Scout"</span> badge.
+                    </p>
+                    <Button variant="outline" className="rounded-full px-8 font-black text-[10px] uppercase tracking-widest border-primary/20 hover:bg-primary/5">View Badges</Button>
+                </Card>
+            </div>
         </div>
     );
 };
